@@ -1,31 +1,24 @@
-// src/utils/tspParser.ts
-export interface City {
-    id: number;
-    x: number;
-    y: number;
-  }
+export const parseTSPFile = async (file: File) => {
+  const text = await file.text();
+  const lines = text.split("\n");
 
-export const parseTSPFile = (fileContent: string): City[] => {
-  const lines = fileContent.split('\n');
-  const cities: City[] = [];
+  const cities = [];
+  let parsingCities = false;
 
-  let isNodeSection = false;
-
-  for (let line of lines) {
-    line = line.trim();
-
-    if (line === 'NODE_COORD_SECTION') {
-      isNodeSection = true;
+  for (const line of lines) {
+    if (line.trim() === "NODE_COORD_SECTION") {
+      parsingCities = true;
       continue;
     }
-
-    if (line === 'EOF') {
+    if (line.trim() === "EOF") {
       break;
     }
-
-    if (isNodeSection && line) {
-      const [id, x, y] = line.split(' ').map(val => parseFloat(val));
-      cities.push({ id, x, y });
+    if (parsingCities) {
+      const parts = line.trim().split(/\s+/);
+      if (parts.length === 3) {
+        const [id, x, y] = parts;
+        cities.push({ id: parseInt(id, 10), x: parseFloat(x), y: parseFloat(y) });
+      }
     }
   }
 
