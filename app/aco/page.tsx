@@ -1,5 +1,5 @@
 "use client";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { useEffect, useState } from "react";
 import AntColony from "../utils/antColony";
 import CityMap from "../components/CityMap"; 
