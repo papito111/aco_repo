@@ -1,5 +1,5 @@
 type City = {
-    id: number;
+    id: number
     x: number;
     y: number;
   };
@@ -14,7 +14,7 @@ type City = {
     private numAnts: number;
     private pheromones: number[][];
     private distances: number[][];
-    private evaporationRate: number;
+    evaporationRate: number;
     alpha: number; // Wpływ feromonów
     beta: number;  // Wpływ odległości
   
@@ -115,8 +115,7 @@ type City = {
           this.pheromones[i][j] *= 1 - this.evaporationRate;
         }
       }
-  
-      // Aktualizacja feromonów na podstawie wyników mrówek
+
       for (const { path, distance } of antsPaths) {
         const pheromoneDeposit = 1 / distance;
         for (let i = 0; i < path.length - 1; i++) {

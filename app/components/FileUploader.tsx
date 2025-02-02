@@ -1,7 +1,14 @@
 // src/components/FileUploader.tsx
 import React, { useState } from 'react';
 import { parseTSPFile } from '../utils/tspParser';
-import { City } from '../utils/tspParser';
+// import { City } from '../utils/tspParser';
+
+type City = {
+  id: number;
+  x: number;
+  y: number;
+};
+
 
 interface FileUploaderProps {
   fileName: string;
@@ -15,8 +22,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({ fileName }) => {
     try {
       const response = await fetch(`/tspFiles/${fileName}`);
       const text = await response.text();
-      const parsedCities = parseTSPFile(text);
-      setCities(parsedCities);
+      const file = new File([text], fileName, { type: 'text/plain' });
+      const parsedCities = parseTSPFile(file);
+      setCities(await parsedCities);
     } catch (error) {
       console.error('Error loading file:', error);
     }
